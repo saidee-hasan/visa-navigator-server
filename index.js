@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId, } = require('mongodb');
 app.use(cors());
 app.use(express.json());
 require("dotenv").config();
@@ -42,6 +42,17 @@ async function run() {
         console.log("Received data:", receivedData);
       });
 
+      app.delete("/apply/:id", async(req, res) => {
+        const id = req.params.id;
+       
+        const query = { _id: new ObjectId(id) };
+   console.log(query)
+        const result = await applyCollection.deleteOne(query)
+        console.log(result)
+        res.send(result)
+  
+  
+      });
       app.get("/apply", async (req, res) => {
         const visa = await applyCollection.find();
         const result = await visa.toArray();
