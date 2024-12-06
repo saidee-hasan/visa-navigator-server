@@ -25,7 +25,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const database = client.db("visa");
-    const userCollection = database.collection("data");
+    const userCollection = database.collection("visa-data");
 
     app.post("/visa", async (req, res) => {
         const receivedData = req.body;
