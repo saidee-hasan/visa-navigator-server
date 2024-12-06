@@ -26,6 +26,7 @@ async function run() {
   try {
     const database = client.db("visa");
     const userCollection = database.collection("visa-data");
+    const apply = database.collection("apply");
 
     app.post("/visa", async (req, res) => {
         const receivedData = req.body;
@@ -33,13 +34,26 @@ async function run() {
         res.send(result);
         console.log("Received data:", receivedData);
       });
+    app.post("/apply", async (req, res) => {
+        const receivedData = req.body;
+        const result = await userCollection.insertOne(receivedData);
+        res.send(result);
+        console.log("Received Apply data:", receivedData);
+      });
 
+      app.get("/apply", async (req, res) => {
+        const visa = await apply.find();
+        const result = await visa.toArray();
+  
+        res.send(result);
+      });
       app.get("/visa", async (req, res) => {
         const visa = await userCollection.find();
         const result = await visa.toArray();
   
         res.send(result);
       });
+  
 
 
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
