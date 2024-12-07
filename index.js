@@ -68,6 +68,33 @@ async function run() {
         res.send(result)
   
       });
+      app.put('/visa/:id', async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const updateVisa = req.body;
+      
+        console.log(updateVisa);
+        const coffee = {
+          $set: {
+            visaType: updateVisa.visaType,
+            countryName: updateVisa.countryName,
+            countryImage: updateVisa.countryImage,
+            processingTime: updateVisa.processingTime,
+            fee: updateVisa.fee,
+            applicationMethod: updateVisa.applicationMethod,
+          
+          }
+        };
+      
+        try {
+          const result = await userCollection.updateOne(query, coffee, { upsert: true });
+          res.send(result);
+        } catch (error) {
+          console.error('Error updating coffee:', error);
+          res.status(500).send('Error updating coffee');
+        }
+      
+      });
       app.get("/apply", async (req, res) => {
         const visa = await applyCollection.find();
         const result = await visa.toArray();
