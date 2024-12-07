@@ -34,6 +34,12 @@ async function run() {
         res.send(result);
         console.log("Received data:", receivedData);
       });
+      app.get('/visa/:email',async(req,res)=>{
+        const email = req.params.email; // Use email parameter from the URL
+        const query = { email: email };
+        const result = await userCollection.find(query).toArray();
+        res.send(result)
+      })
       
     app.post("/apply", async (req, res) => {
         const receivedData = req.body;
@@ -46,11 +52,20 @@ async function run() {
         const id = req.params.id;
        
         const query = { _id: new ObjectId(id) };
-   console.log(query)
+         console.log(query)
         const result = await applyCollection.deleteOne(query)
         console.log(result)
         res.send(result)
   
+      });
+      app.delete("/visa/:id", async(req, res) => {
+        const id = req.params.id;
+       
+        const query = { _id: new ObjectId(id) };
+         console.log(query)
+        const result = await userCollection.deleteOne(query)
+        console.log(result)
+        res.send(result)
   
       });
       app.get("/apply", async (req, res) => {
@@ -58,6 +73,7 @@ async function run() {
         const result = await visa.toArray();
         res.send(result);
       });
+
       app.get("/visa", async (req, res) => {
         const visa = await userCollection.find();
         const result = await visa.toArray();
