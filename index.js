@@ -127,7 +127,7 @@ run().catch(console.dir);
 
 
 app.get("/", (req, res) => {
-    res.send("Visa makeing server is runing ");
+    res.send("Visa makeing server is runin ");
   });
   
   // Start the server
